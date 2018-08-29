@@ -1,12 +1,77 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Kinetic Energy</title>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <title>Kinetic Energy</title>
+  </head>
 
-<body>
-Content of the document......
-</body>
+  <body>
+    <form>
+      <label for="bbWeight">BB weight</label>
+      <select name="bbWeight" id="bbWeight">
+        <option value="0.2">0.20g</option>
+        <option value="0.23">0.23g</option>
+        <option value="0.25">0.25g</option>
+        <option value="0.28">0.28g</option>
+        <option value="0.30">0.30g</option>
+        <option value="0.32">0.32g</option>
+        <option value="0.36">0.36g</option>
+        <option value="0.40">0.40g</option>
+        <option value="0.43">0.43g</option>
+        <option value="0.45">0.45g</option>
+      </select>
+      <br/>
+      <label for="fps">FPS</label>
+      <input type="number" name="fps" id="fps" min="250.0" max="600.0" value="250.0">
+      <br/><br/>
+      <button id="calculate">Calculate</button>
+    </form>
+    <p>
+      Joules: <span id="output">0.58</span>
+    </p>
+  </body>
 
+  <script>
+    var output = document.querySelector("#output");
+    var bbWeight = document.querySelector("#bbWeight");
+    var fps = document.querySelector("#fps");
+
+    prettyFloat = function(number) {
+      // really JS?
+      return Number(number.toFixed(2));
+    }
+
+    massInKilograms = function(massInGrams) {
+      return massInGrams / 1000.0;
+    }
+
+    speedInMetersPerSecond = function(speedInFeetPerSecond) {
+      return (speedInFeetPerSecond * 0.3048)
+    }
+
+    calculateEnergy = function(mass, speed) {
+      var parsedMass = parseFloat(mass);
+      var parsedSpeed = parseFloat(speed);
+
+      return prettyFloat((0.5 * massInKilograms(parsedMass) * (speedInMetersPerSecond(parsedSpeed) ** 2)));
+    }
+
+    displayResult = function(result) {
+      output.innerText = result;
+
+      return;
+    }
+
+    handler = function(event) {
+
+      var mass = bbWeight.value;
+      var speed = fps.value;
+
+      displayResult(calculateEnergy(mass, speed));
+
+      return false;
+    }
+
+    document.querySelector("#calculate").onclick = handler;
+  </script>
 </html>
