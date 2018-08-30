@@ -32,28 +32,54 @@
   </body>
 
   <script>
-    var output = document.querySelector("#output"),
-        bbWeight = document.querySelector("#bbWeight"),
-        fps = document.querySelector("#fps");
+    /*
 
-    prettyFloat = function(number) {
+      kinetic energy = half its mass (kg) times its speed squared (meters per sec)
+
+                                  - or -
+
+                         J = ( 0.5 x m ) x ( v^2 )
+
+    */
+
+    var output   = document.querySelector("#output"),
+        bbWeight = document.querySelector("#bbWeight"),
+        fps      = document.querySelector("#fps");
+
+    prettyFloat = function(uglyFloat) {
       // really JS?
-      return Number(number.toFixed(2));
+      return Number(uglyFloat.toFixed(2));
     }
 
-    massInKilograms = function(massInGrams) {
+    convertGramsToKilograms = function(massInGrams) {
       return massInGrams / 1000.0;
     }
 
-    speedInMetersPerSecond = function(speedInFeetPerSecond) {
+    convertFeetPerSecToMetersPerSec = function(speedInFeetPerSecond) {
       return (speedInFeetPerSecond * 0.3048)
     }
 
+    halfTheMassInKilograms = function(massInGrams) {
+      return 0.5 * convertGramsToKilograms(massInGrams);
+    }
+
+    speedSquaredInMetersPerSecond = function(speedInFeetPerSecond) {
+      return convertFeetPerSecToMetersPerSec(speedInFeetPerSecond) ** 2;
+    }
+
+    toJoules = function(massInGrams, speedAsFps) {
+      var bbSpeed = speedSquaredInMetersPerSecond(speedAsFps),
+          bbMass  = halfTheMassInKilograms(massInGrams),
+          joules  = bbMass * bbSpeed;
+
+      return prettyFloat(joules);
+    }
+
     calculateEnergy = function(mass, speed) {
-      var parsedMass = parseFloat(mass),
+      var parsedMass  = parseFloat(mass),
           parsedSpeed = parseFloat(speed);
 
-      return prettyFloat((0.5 * massInKilograms(parsedMass) * (speedInMetersPerSecond(parsedSpeed) ** 2)));
+      return toJoules(parsedMass, parsedSpeed)
     }
 
     displayResult = function(result) {
@@ -64,7 +90,7 @@
 
     handler = function(event) {
 
-      var mass = bbWeight.value,
+      var mass  = bbWeight.value,
           speed = fps.value;
 
       displayResult(calculateEnergy(mass, speed));
