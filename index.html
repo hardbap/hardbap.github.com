@@ -32,9 +32,9 @@
   </body>
 
   <script>
-    var output = document.querySelector("#output");
-    var bbWeight = document.querySelector("#bbWeight");
-    var fps = document.querySelector("#fps");
+    var output = document.querySelector("#output"),
+        bbWeight = document.querySelector("#bbWeight"),
+        fps = document.querySelector("#fps");
 
     prettyFloat = function(number) {
       // really JS?
@@ -50,8 +50,8 @@
     }
 
     calculateEnergy = function(mass, speed) {
-      var parsedMass = parseFloat(mass);
-      var parsedSpeed = parseFloat(speed);
+      var parsedMass = parseFloat(mass),
+          parsedSpeed = parseFloat(speed);
 
       return prettyFloat((0.5 * massInKilograms(parsedMass) * (speedInMetersPerSecond(parsedSpeed) ** 2)));
     }
@@ -64,8 +64,8 @@
 
     handler = function(event) {
 
-      var mass = bbWeight.value;
-      var speed = fps.value;
+      var mass = bbWeight.value,
+          speed = fps.value;
 
       displayResult(calculateEnergy(mass, speed));
 
